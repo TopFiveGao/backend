@@ -18,7 +18,7 @@ export default defineConfig({
     // 支持任何不需要 dom 的
     // https://procomponents.ant.design/components/layout#prolayout
     name: '渝黔高铁管理系统',
-    logo,
+    // logo,
     locale: true,
     layout: 'side',
   },

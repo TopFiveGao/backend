@@ -2,17 +2,16 @@
  * @Author       : topfivegao
  * @Date         : 2023-01-03 19:55:51
  * @FilePath     : /backend/src/pages/activity/publish.tsx
- * @LastEditTime : 2023-01-13 16:48:44
+ * @LastEditTime : 2023-01-22 16:42:09
  * @Description  : 有空一起吃个饭啊!	微信联系 treeshaking666
  * 
  * Copyright (c) 2023 by topfivegao, All Rights Reserved. 
  */
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Button, Form, Input, message, Spin } from 'antd';
 import ImageUpload from '@/components/ImageUpload'
 import { addBanner } from '@/api';
-import { useRequest } from 'umi';
-
+import { useRequest, history } from 'umi';
 
 const layout = {
   labelCol: { span: 8 },
@@ -24,14 +23,23 @@ const tailLayout = {
 
 const Publish: React.FC = () => {
   const [form] = Form.useForm();
-  const { loading, run } = useRequest((values) => {
+  const { data, loading, run } = useRequest((values) => {
     console.log('form信息: ', values);
     return addBanner(values)
   }, { manual: true })
 
+  useEffect(() => {
+    // 发布活动成功后，进行路由跳转
+    if (data) {
+      history.push({
+        pathname: '/activity/home'
+      })
+      message.success('发布成功！')
+    }
+  }, [data])
+
   const onFinish = (values: any) => {
     run(values)
-    message.success('提交成功！')
   };
 
   const onReset = () => {

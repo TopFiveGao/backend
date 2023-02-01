@@ -2,7 +2,7 @@
  * @Author       : topfivegao
  * @Date         : 2023-01-15 23:40:01
  * @FilePath     : /backend/src/pages/activity/edit.tsx
- * @LastEditTime : 2023-01-20 01:30:14
+ * @LastEditTime : 2023-01-22 16:42:01
  * @Description  : 有空一起吃个饭啊!	微信联系 treeshaking666
  * 
  * Copyright (c) 2023 by topfivegao, All Rights Reserved. 
@@ -12,7 +12,7 @@ import React, { useEffect } from 'react';
 import { Button, Form, Input, message, Spin } from 'antd';
 import ImageUpload from '@/components/ImageUpload'
 import { updateBanner } from '@/api';
-import { useRequest } from 'umi';
+import { useRequest, history } from 'umi';
 
 
 const layout = {
@@ -26,7 +26,7 @@ const tailLayout = {
 const EditActivity: React.FC = (props: any) => {
     const [form] = Form.useForm();
 
-    const { loading, run } = useRequest((values) => {
+    const { data, loading, run } = useRequest((values) => {
         console.log('form信息: ', values);
         return updateBanner(props.location.query.key, values)
     }, { manual: true })
@@ -38,9 +38,28 @@ const EditActivity: React.FC = (props: any) => {
         form.setFieldsValue(props.location.query)
     }, [])
 
+    useEffect(() => {
+        // 解析后端返回数据, 只做展示之用，熟悉 async 和 await 用法
+        // const parseResponse = async () => {
+        //     if (data) {
+        //         const r = await data.json()
+        //         console.log(r);
+        //         return r
+        //     }
+        // }
+        // parseResponse()
+
+        // 后端有数据后，进行路由跳转
+        if (data) {
+            history.push({
+                pathname: '/activity/home'
+            })
+            message.success('更新成功！')
+        }
+    }, [data])
+
     const onFinish = (values: any) => {
         run(values)
-        message.success('修改成功！')
     };
 
     const onReset = () => {
