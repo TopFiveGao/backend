@@ -2,7 +2,7 @@
  * @Author       : topfivegao
  * @Date         : 2022-12-11 00:58:09
  * @FilePath     : /backend/src/routes/index.ts
- * @LastEditTime : 2023-01-24 02:53:26
+ * @LastEditTime : 2023-02-04 21:45:34
  * @Description  : 有空一起吃个饭啊!	微信联系 treeshaking666
  * 
  * Copyright (c) 2022 by topfivegao, All Rights Reserved. 
@@ -28,6 +28,12 @@ export const routes = [
                 path: '/members/admin',
                 component: '@/pages/members/admin',
                 name: '信息录入',
+            },
+            {
+                path: '/members/edit',
+                component: '@/pages/members/edit',
+                name: '信息编辑',
+                hideInMenu: true,
             },
         ],
     },

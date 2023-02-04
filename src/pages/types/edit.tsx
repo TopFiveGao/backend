@@ -2,7 +2,7 @@
  * @Author       : topfivegao
  * @Date         : 2023-01-24 02:53:49
  * @FilePath     : /backend/src/pages/types/edit.tsx
- * @LastEditTime : 2023-01-25 02:20:06
+ * @LastEditTime : 2023-02-05 00:58:01
  * @Description  : 有空一起吃个饭啊!	微信联系 treeshaking666
  * 
  * Copyright (c) 2023 by topfivegao, All Rights Reserved. 
@@ -22,23 +22,16 @@ const tailLayout = {
 
 const TypesEdit: React.FC = (props: any) => {
     const [form] = Form.useForm();
+    const params = props.location.query
+    let id: string = params.key
     const typeList: string[] = []
-    const TYPE_NAME = 'typeName'
 
-    // 路由跳转时一定要注意页面返回的 bug，暂时想到可以用 sessionStorage 解决
-    let kind: string = props.location.query.name
-
-    if (!sessionStorage.getItem(TYPE_NAME)) {
-        sessionStorage.setItem(TYPE_NAME, kind)
-    } else {
-        kind = sessionStorage.getItem(TYPE_NAME) || ''
-    }
-    
+    // 路由跳转时一定要注意页面返回的 bug
 
     // 提交表单 产品发布
     const { data, loading, run } = useRequest((values) => {
         console.log('form信息: ', values, props);
-        return updateType(props.location.query.key, values)
+        return updateType(id, values)
     }, {
         manual: true
     })
@@ -56,23 +49,15 @@ const TypesEdit: React.FC = (props: any) => {
     useEffect(() => {
         // 分类名称修改成功后，进行路由跳转
         if (data) {
-            sessionStorage.setItem(TYPE_NAME, kind)
             history.push({
                 pathname: '/types/home'
             })
             message.success('分类修改成功！')
         }
-        return () => {
-            sessionStorage.removeItem(TYPE_NAME)
-        }
     }, [data])
 
     const onFinish = (values: any) => {
         console.log(typeList);
-        if (kind === values.item) {
-            message.warning('分类名称并未改变！')
-            return
-        }
         for (let i = 0; i < typeList.length; i++) {
             if (typeList[i] === values.item) {
                 message.info('该分类已经存在，请重新添加！')
@@ -80,7 +65,12 @@ const TypesEdit: React.FC = (props: any) => {
             }
         }
         // kind = values.item
-        run(values)
+        if(id){
+            run(values)
+        }else{
+            console.log('当前页面是非法的编辑页面！')
+        }
+        
     };
 
     const goBack = () => {

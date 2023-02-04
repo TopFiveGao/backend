@@ -2,7 +2,7 @@
  * @Author       : topfivegao
  * @Date         : 2022-12-11 00:56:12
  * @FilePath     : /backend/src/app.tsx
- * @LastEditTime : 2023-01-24 17:01:47
+ * @LastEditTime : 2023-02-04 21:58:41
  * @Description  : 有空一起吃个饭啊!	微信联系 treeshaking666
  * 
  * Copyright (c) 2022 by topfivegao, All Rights Reserved. 
@@ -42,6 +42,16 @@ export const request: Request.RequestConfig = {
 
             // 因为 useRequest 封装了细节，它只认 {data:xxx} 格式的返回，才能提取到data， 所以要自己构造符合要求的 data 。
             // console.log('response响应数据：', response, options);
+
+            // handle API: addMember
+            if (response.url === API_BASE_URL + '/1.1/classes/members' && response.status === 201 && methodType.toUpperCase() === 'POST') {
+                return { data: response }
+            }
+
+            // handle API: updateMember
+            if (response.url === (API_BASE_URL + footUrl) && response.url.indexOf('/1.1/classes/members/') !== -1 && methodType.toUpperCase() === 'PUT') {
+                return { data: response }
+            }
 
             // handle API: addBanner
             if (response.url === API_BASE_URL + '/1.1/classes/banners' && response.status === 201 && methodType.toUpperCase() === 'POST') {

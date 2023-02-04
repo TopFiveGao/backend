@@ -2,7 +2,7 @@
  * @Author       : topfivegao
  * @Date         : 2023-01-03 20:48:01
  * @FilePath     : /backend/src/pages/members/admin.tsx
- * @LastEditTime : 2023-01-03 20:48:03
+ * @LastEditTime : 2023-02-05 01:09:25
  * @Description  : 有空一起吃个饭啊!	微信联系 treeshaking666
  * 
  * Copyright (c) 2023 by topfivegao, All Rights Reserved. 
@@ -11,18 +11,20 @@ import React from 'react';
 import { Button, Form, Input, Select, Spin, message } from 'antd';
 import { addMember } from '@/api'
 import useRequest from '@ahooksjs/use-request';
+import { history } from 'umi';
 
 
 const { Option } = Select;
 
 const Admin: React.FC = () => {
   let { loading, run } = useRequest((values) => {
-    console.log('useRequest manual executing');
-    message.success('录入成功！')
     return addMember(values)
-    
   }, {
-    manual: true
+    manual: true,
+    onSuccess(data, params) {
+      history.replace('/members/home')
+      message.success('录入成功！')
+    },
   })
   const onFinish = (values: any) => {
     const [age, salary] = [Number(values.age), Number(values.salary)]
@@ -54,7 +56,6 @@ const Admin: React.FC = () => {
         name="basic"
         labelCol={{ span: 8 }}
         wrapperCol={{ span: 12 }}
-        initialValues={{ remember: true }}
         onFinish={onFinish}
         onFinishFailed={onFinishFailed}
         autoComplete="off"
