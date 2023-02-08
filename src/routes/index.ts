@@ -2,12 +2,19 @@
  * @Author       : topfivegao
  * @Date         : 2022-12-11 00:58:09
  * @FilePath     : /backend/src/routes/index.ts
- * @LastEditTime : 2023-02-04 21:45:34
+ * @LastEditTime : 2023-02-07 17:02:20
  * @Description  : 有空一起吃个饭啊!	微信联系 treeshaking666
  * 
  * Copyright (c) 2022 by topfivegao, All Rights Reserved. 
  */
 export const routes = [
+    {
+        path: '/login',
+        component: '@/pages/login',
+        name: '登录',
+        layout: false,
+        hideInMenu: true
+    },
     {
         path: '/',
         component: '@/pages/index',
@@ -105,12 +112,5 @@ export const routes = [
         component: '@/pages/other',
         name: '其他',
         icon: 'Tool',
-    },
-    {
-        // icon: 'User'
-        // icon: 'UserAdd'
-        // icon: 'Profile',
-        // icon: 'ToTop',
-        // icon: 'SendOutlined',
     }
 ]
