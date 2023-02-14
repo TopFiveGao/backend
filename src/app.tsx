@@ -2,7 +2,7 @@
  * @Author       : topfivegao
  * @Date         : 2022-12-11 00:56:12
  * @FilePath     : /backend/src/app.tsx
- * @LastEditTime : 2023-02-09 00:10:01
+ * @LastEditTime : 2023-02-13 22:00:45
  * @Description  : 有空一起吃个饭啊!	微信联系 treeshaking666
  * 
  * Copyright (c) 2022 by topfivegao, All Rights Reserved. 
@@ -20,20 +20,25 @@ import {
 
 export async function getInitialState() {
     let userStatus = {
-        isLogin: false,
+        isRegistering: false,
+        isLogin: true,
         userInfo: 'Gao'
     }
     console.log('initialState: ', userStatus)
     return userStatus;
 }
 
-export const layout = ({ initialState }: { initialState: { settings?: LayoutSettings; isLogin: boolean } }) => {
+export const layout = ({ initialState }: { initialState: { settings?: LayoutSettings; isLogin: boolean, isRegistering: boolean } }) => {
     return {
         onPageChange: () => {
-            const { isLogin } = initialState
+            const { isLogin, isRegistering } = initialState
             console.log('onPageChange: ', initialState)
             if (!isLogin) {
-                history.push('/login')
+                if (isRegistering) {
+                    history.push('/register')
+                } else {
+                    history.push('/login')
+                }
             }
         }
     }
@@ -65,8 +70,19 @@ export const request: Request.RequestConfig = {
 
             console.log(methodType, 'API 接口地址：', API_BASE_URL + footUrl);
 
+            // handle API: userRegister
+            if (response.url === API_BASE_URL + '/1.1/users' && methodType.toUpperCase() === 'POST') {
+                return { data: response }
+            }
+
+            // handle API: userLogin
+            if (response.url === API_BASE_URL + '/1.1/login' && methodType.toUpperCase() === 'POST') {
+                return { data: response }
+            }
+
             // 因为 useRequest 封装了细节，它只认 {data:xxx} 格式的返回，才能提取到data， 所以要自己构造符合要求的 data 。
             // console.log('response响应数据：', response, options);
+
 
             // handle API: addMember
             if (response.url === API_BASE_URL + '/1.1/classes/members' && response.status === 201 && methodType.toUpperCase() === 'POST') {

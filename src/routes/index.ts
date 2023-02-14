@@ -2,7 +2,7 @@
  * @Author       : topfivegao
  * @Date         : 2022-12-11 00:58:09
  * @FilePath     : /backend/src/routes/index.ts
- * @LastEditTime : 2023-02-07 17:02:20
+ * @LastEditTime : 2023-02-13 12:54:04
  * @Description  : 有空一起吃个饭啊!	微信联系 treeshaking666
  * 
  * Copyright (c) 2022 by topfivegao, All Rights Reserved. 
@@ -12,6 +12,13 @@ export const routes = [
         path: '/login',
         component: '@/pages/login',
         name: '登录',
+        layout: false,
+        hideInMenu: true
+    },
+    {
+        path: '/register',
+        component: '@/pages/register',
+        name: '注册',
         layout: false,
         hideInMenu: true
     },
