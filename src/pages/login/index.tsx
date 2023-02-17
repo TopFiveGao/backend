@@ -2,36 +2,33 @@
  * @Author       : topfivegao
  * @Date         : 2023-02-06 15:23:24
  * @FilePath     : /backend/src/pages/login/index.tsx
- * @LastEditTime : 2023-02-15 02:53:36
+ * @LastEditTime : 2023-02-17 23:21:56
  * @Description  : 有空一起吃个饭啊!	微信联系 treeshaking666
  * 
  * Copyright (c) 2023 by topfivegao, All Rights Reserved. 
  */
 
 import { userLogin } from '@/api/user';
+import { USER_INFO } from '@/utils/consts';
 import { Button, Form, Input, Row, Col, Card, Checkbox, Spin, message } from 'antd';
 import React, { useState } from 'react';
 import { useModel, useRequest, history } from 'umi'
 
 const Login: React.FC = (props: any) => {
-    const { initialState, loading, refresh, setInitialState } = useModel('@@initialState');
-    const [remember, setRemember] = useState(false)
 
+    const { initialState, loading, refresh, setInitialState } = useModel('@@initialState');
+    // 函数式组件中如果要所用变量没有采用hooks，出了问题一定要首先检查这个变量
+    const [remember, setRemember] = useState(false)
     const user: User = { username: '', password: '' }
 
     console.log(props)
 
     const query = props.location.query
-    if (query.body) {
-        query.json().then((res: any) => {
-            console.log(res)
-            user.username = res.username
-        })
-    }
 
     const { data, run } = useRequest((values) => {
         user.username = values.username
         user.password = values.password
+        setRemember(values.remember)
         return userLogin(user)
     }, {
         manual: true,
@@ -46,9 +43,19 @@ const Login: React.FC = (props: any) => {
                 }
 
                 if (res.sessionToken) {
-                    // 登录成功
-                    setInitialState({ ...initialState, isLogin: true } as any).then(() => {
+                    // 登录成功, 更新 layout 消费数据
+                    setInitialState({
+                        ...initialState,
+                        isLogin: true,
+                        userInfo: res
+                    } as any).then(() => {
                         console.log('setInitialState success:')
+                        // 本地保存登录状态
+                        let store = sessionStorage
+                        if (remember) {
+                            store = localStorage
+                        }
+                        store.setItem(USER_INFO, JSON.stringify(res))
                         history.push('/')
                     })
                 }
@@ -61,11 +68,6 @@ const Login: React.FC = (props: any) => {
     })
 
     const onFinish = (values: any) => {
-        // 1. 对【记住密码】的用户行为进行响应
-
-        // 2. 验证密码是否正确
-
-        // 3. 保存用户状态
         console.log(values);
         run(values)
     };
@@ -86,13 +88,14 @@ const Login: React.FC = (props: any) => {
                             onFinish={onFinish}
                             onFinishFailed={onFinishFailed}
                             autoComplete="off"
+                            initialValues={{ remember }}
                         >
                             <Form.Item
                                 label="用户"
                                 name="username"
                                 rules={[{ required: true, message: '请输入用户!' }]}
                             >
-                                <Input placeholder={'默认用户名 admin'}/>
+                                <Input placeholder={'默认用户名 admin'} />
                             </Form.Item>
 
                             <Form.Item
@@ -100,7 +103,7 @@ const Login: React.FC = (props: any) => {
                                 name="password"
                                 rules={[{ required: true, message: '请输入密码!' }]}
                             >
-                                <Input.Password placeholder={'默认密码 123456'}/>
+                                <Input.Password placeholder={'默认密码 123456'} />
                             </Form.Item>
 
                             <Form.Item name="remember" valuePropName="checked" wrapperCol={{ offset: 11, span: 13 }}>

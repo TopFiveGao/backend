@@ -2,7 +2,7 @@
  * @Author       : topfivegao
  * @Date         : 2022-12-11 00:56:12
  * @FilePath     : /backend/src/app.tsx
- * @LastEditTime : 2023-02-13 22:00:45
+ * @LastEditTime : 2023-02-17 23:19:44
  * @Description  : 有空一起吃个饭啊!	微信联系 treeshaking666
  * 
  * Copyright (c) 2022 by topfivegao, All Rights Reserved. 
@@ -12,6 +12,8 @@ import { Request, Response, history } from 'umi';
 import { API_BASE_URL, X_LC_Id, X_LC_Key } from '@/credentials'
 // 初始化 leancloud 服务的 SDK
 import '@/utils/init-leancloud-sdk'
+import { USER_INFO } from './utils/consts';
+import HeaderDropMenu from '@/components/HeaderDropMenu'
 
 import {
     BasicLayoutProps,
@@ -19,19 +21,24 @@ import {
 } from '@ant-design/pro-layout';
 
 export async function getInitialState() {
+    const userInfo = localStorage.getItem(USER_INFO) || sessionStorage.getItem(USER_INFO)
     let userStatus = {
         isRegistering: false,
-        isLogin: true,
-        userInfo: 'Gao'
+        isLogin: false,
+        userInfo
+    }
+    if (userInfo) {
+        userStatus.userInfo = JSON.parse(userInfo)
+        userStatus.isLogin = true
     }
     console.log('initialState: ', userStatus)
     return userStatus;
 }
 
-export const layout = ({ initialState }: { initialState: { settings?: LayoutSettings; isLogin: boolean, isRegistering: boolean } }) => {
+export const layout = ({ initialState }: { initialState: { settings?: LayoutSettings; isLogin: boolean, isRegistering: boolean, userInfo: any } }) => {
     return {
         onPageChange: () => {
-            const { isLogin, isRegistering } = initialState
+            const { isLogin, isRegistering, userInfo } = initialState
             console.log('onPageChange: ', initialState)
             if (!isLogin) {
                 if (isRegistering) {
@@ -40,6 +47,14 @@ export const layout = ({ initialState }: { initialState: { settings?: LayoutSett
                     history.push('/login')
                 }
             }
+        },
+        // 比 onPageChange 先执行，不知道是不是耗费性能，官网文档已经找不到该配置项
+        rightContentRender: () => {
+            const { userInfo } = initialState
+            if (userInfo) {
+                return <HeaderDropMenu username={userInfo.username} />
+            }
+            return <>未登录！！！</>
         }
     }
 }
