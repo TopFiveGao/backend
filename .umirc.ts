@@ -1,7 +1,6 @@
 import { defineConfig } from 'umi';
 import { routes } from './src/routes'
 
-import { logo } from './src/logo'
 
 export default defineConfig({
   nodeModulesTransform: {
@@ -18,7 +17,6 @@ export default defineConfig({
     // 支持任何不需要 dom 的
     // https://procomponents.ant.design/components/layout#prolayout
     name: '渝黔高铁管理系统',
-    // logo,
     locale: true,
     layout: 'side',
   },

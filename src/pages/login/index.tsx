@@ -2,7 +2,7 @@
  * @Author       : topfivegao
  * @Date         : 2023-02-06 15:23:24
  * @FilePath     : /backend/src/pages/login/index.tsx
- * @LastEditTime : 2023-02-17 23:21:56
+ * @LastEditTime : 2023-03-01 13:12:56
  * @Description  : 有空一起吃个饭啊!	微信联系 treeshaking666
  * 
  * Copyright (c) 2023 by topfivegao, All Rights Reserved. 
@@ -16,10 +16,10 @@ import { useModel, useRequest, history } from 'umi'
 
 const Login: React.FC = (props: any) => {
 
-    const { initialState, loading, refresh, setInitialState } = useModel('@@initialState');
-    // 函数式组件中如果要所用变量没有采用hooks，出了问题一定要首先检查这个变量
+    const { initialState, loading, setInitialState } = useModel('@@initialState');
+    // 函数式组件中如果要所用变量没有采用hooks，出了bug一定要首先检查这个变量
     const [remember, setRemember] = useState(false)
-    const user: User = { username: '', password: '' }
+    const user: User = { username: '', password: '', role: '' }
 
     console.log(props)
 
@@ -95,7 +95,7 @@ const Login: React.FC = (props: any) => {
                                 name="username"
                                 rules={[{ required: true, message: '请输入用户!' }]}
                             >
-                                <Input placeholder={'默认用户名 admin'} />
+                                <Input placeholder={'普通用户 user'} />
                             </Form.Item>
 
                             <Form.Item

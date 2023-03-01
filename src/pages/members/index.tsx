@@ -91,7 +91,7 @@ const MemberList: React.FC = () => {
     return delMember(value)
   }, {
     manual: true,
-    onSuccess: (_: any, params: any) => {
+    onSuccess: (_: any, params:string[]) => {
       mutate(data.filter((item: any) => item.key != params[0]))
     }
   })

@@ -2,7 +2,7 @@
  * @Author       : topfivegao
  * @Date         : 2022-12-11 00:58:09
  * @FilePath     : /backend/src/routes/index.ts
- * @LastEditTime : 2023-02-19 02:46:05
+ * @LastEditTime : 2023-03-01 13:30:31
  * @Description  : 有空一起吃个饭啊!	微信联系 treeshaking666
  * 
  * Copyright (c) 2022 by topfivegao, All Rights Reserved. 
@@ -12,6 +12,7 @@ export const routes = [
         path: '/login',
         component: '@/pages/login',
         name: '登录',
+        // layout 用于是否显示该路由
         layout: false,
         hideInMenu: true
     },
@@ -115,18 +116,35 @@ export const routes = [
         ]
     },
     {
-        path: '/other',
-        name: '其他',
-        icon: 'Tool',
+        path: '/system',
+        name: '系统设置',
+        icon: 'Setting',
         routes:[
             {
-                path: '/other/home',
-                component: '@/pages/other',
+                path:'/system/home',
+                name: '用户列表',
+                component: '@/pages/system'
+            },
+            {
+                path:'/system/manage',
+                name: '用户添加',
+                component:'@/pages/system/addUser'
+            }
+        ]
+    },
+    {
+        path: '/messages',
+        name: '消息',
+        icon: 'Message',
+        routes:[
+            {
+                path: '/messages/home',
+                component: '@/pages/messages',
                 name: '选项一'
             },
             {
-                path: '/other/option',
-                component: '@/pages/other/option',
+                path: '/messages/page1',
+                component: '@/pages/messages/page1',
                 name: '选项二'
             },
         ]

@@ -2,7 +2,7 @@
  * @Author       : topfivegao
  * @Date         : 2023-02-13 12:52:46
  * @FilePath     : /backend/src/pages/register/index.tsx
- * @LastEditTime : 2023-02-15 02:45:44
+ * @LastEditTime : 2023-03-01 13:55:08
  * @Description  : 有空一起吃个饭啊!	微信联系 treeshaking666
  * 
  * Copyright (c) 2023 by topfivegao, All Rights Reserved. 
@@ -10,7 +10,7 @@
 import { userRegister } from '@/api/user';
 import { Button, Form, Input, Row, Col, Card, Spin, message } from 'antd';
 import React from 'react';
-import { useModel, history, useRequest } from 'umi'
+import { history, useRequest } from 'umi'
 
 const Register: React.FC = () => {
 
@@ -19,6 +19,7 @@ const Register: React.FC = () => {
         const user: User = {
             username: values.username,
             password: values.password,
+            role: values.role,
             email: values.email
         }
         return userRegister(user)
@@ -46,8 +47,12 @@ const Register: React.FC = () => {
         },
     })
     const onFinish = (values: any) => {
-        console.log(values);
-        run(values)
+        const val = {
+            ...values,
+            role: 'admin'
+        }
+        console.log(val);
+        run(val)
     };
 
     const onFinishFailed = (errorInfo: any) => {
