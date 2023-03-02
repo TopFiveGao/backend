@@ -2,11 +2,13 @@
  * @Author       : topfivegao
  * @Date         : 2023-02-19 00:45:36
  * @FilePath     : /backend/src/models/message.tsx
- * @LastEditTime : 2023-03-01 22:50:00
+ * @LastEditTime : 2023-03-02 10:06:06
  * @Description  : 有空一起吃个饭啊!	微信联系 treeshaking666
  * 
  * Copyright (c) 2023 by topfivegao, All Rights Reserved. 
  */
+import { produce } from 'immer'
+
 const avatar = 'https://randomuser.me/api/portraits/women/82.jpg'
 
 export default {
@@ -57,6 +59,7 @@ export default {
     reducers: {
         read(preState: [
             {
+                key: string;
                 name: string;
                 picture: string;
                 desc: string;
@@ -64,13 +67,16 @@ export default {
             }
         ], action: any) {
             const { item } = action
-            for (const i of preState) {
-                if (i == item) {
-                    i.readed = true
-                    break
+            const res = produce(preState, draft =>{
+                for (const i of draft) {
+                    console.log();
+                    if (i.key == item.key) {
+                        i.readed = true
+                        break
+                    }
                 }
-            }
-            return [...preState]
+            })
+            return res
         }
     }
 };

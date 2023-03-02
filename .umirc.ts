@@ -21,4 +21,7 @@ export default defineConfig({
     layout: 'side',
   },
   fastRefresh: {},
+  dva: {
+    // immer: true
+  }
 });
