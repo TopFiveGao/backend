@@ -2,7 +2,7 @@
  * @Author       : topfivegao
  * @Date         : 2022-12-11 00:56:12
  * @FilePath     : /backend/src/app.tsx
- * @LastEditTime : 2023-03-01 21:28:43
+ * @LastEditTime : 2023-03-03 17:19:46
  * @Description  : 有空一起吃个饭啊!	微信联系 treeshaking666
  * 
  * Copyright (c) 2022 by topfivegao, All Rights Reserved. 
@@ -34,7 +34,7 @@ export async function getInitialState() {
     return userStatus;
 }
 
-export const layout = ({ initialState }: { initialState: { settings?: LayoutSettings; isLogin: boolean, isRegistering: boolean, userInfo: any } }) => {
+export const layout = ({ initialState }: { initialState: { settings?: LayoutSettings; isLogin: boolean, userInfo: any } }) => {
     return {
         // 比 onPageChange 先执行，不知道是不是耗费性能，官网文档已经找不到该配置项，但是运行时配置的代码里有
         rightContentRender: () => {

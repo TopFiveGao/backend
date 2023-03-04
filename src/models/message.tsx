@@ -2,7 +2,7 @@
  * @Author       : topfivegao
  * @Date         : 2023-02-19 00:45:36
  * @FilePath     : /backend/src/models/message.tsx
- * @LastEditTime : 2023-03-02 10:06:06
+ * @LastEditTime : 2023-03-02 10:22:17
  * @Description  : 有空一起吃个饭啊!	微信联系 treeshaking666
  * 
  * Copyright (c) 2023 by topfivegao, All Rights Reserved. 
@@ -69,7 +69,6 @@ export default {
             const { item } = action
             const res = produce(preState, draft =>{
                 for (const i of draft) {
-                    console.log();
                     if (i.key == item.key) {
                         i.readed = true
                         break

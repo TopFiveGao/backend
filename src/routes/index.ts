@@ -2,7 +2,7 @@
  * @Author       : topfivegao
  * @Date         : 2022-12-11 00:58:09
  * @FilePath     : /backend/src/routes/index.ts
- * @LastEditTime : 2023-03-01 13:30:31
+ * @LastEditTime : 2023-03-04 16:46:41
  * @Description  : 有空一起吃个饭啊!	微信联系 treeshaking666
  * 
  * Copyright (c) 2022 by topfivegao, All Rights Reserved. 
@@ -119,16 +119,17 @@ export const routes = [
         path: '/system',
         name: '系统设置',
         icon: 'Setting',
-        routes:[
+        access: 'isRoot',
+        routes: [
             {
-                path:'/system/home',
+                path: '/system/home',
                 name: '用户列表',
                 component: '@/pages/system'
             },
             {
-                path:'/system/manage',
+                path: '/system/manage',
                 name: '用户添加',
-                component:'@/pages/system/addUser'
+                component: '@/pages/system/addUser',
             }
         ]
     },
@@ -136,7 +137,7 @@ export const routes = [
         path: '/messages',
         name: '消息',
         icon: 'Message',
-        routes:[
+        routes: [
             {
                 path: '/messages/home',
                 component: '@/pages/messages',
@@ -147,6 +148,27 @@ export const routes = [
                 component: '@/pages/messages/page1',
                 name: '选项二'
             },
+        ]
+    },
+    {
+        path: '/area',
+        icon: '',
+        routes: [
+            {
+                path: '/area/home',
+                component: '@/pages/area',
+                name: '当前地区',
+            },
+            {
+                path: '/area/diy',
+                component: '@/pages/area/draw',
+                name: '绘画区域'
+            },
+            {
+                path: '/area/other',
+                component: '@/pages/area/other',
+                name: '其他'
+            }
         ]
     }
 ]

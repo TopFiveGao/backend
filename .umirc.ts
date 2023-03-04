@@ -16,12 +16,12 @@ export default defineConfig({
   layout: {
     // 支持任何不需要 dom 的
     // https://procomponents.ant.design/components/layout#prolayout
-    name: '渝黔高铁管理系统',
+    name: 'umi管理系统',
     locale: true,
     layout: 'side',
   },
   fastRefresh: {},
   dva: {
-    // immer: true
+    immer: true
   }
 });
